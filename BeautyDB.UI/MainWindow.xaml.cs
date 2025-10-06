@@ -11,4 +11,10 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     }
+
+    private void CreateButton_Click(object sender, RoutedEventArgs e)
+    {
+        var reservationWindow = new ReservationEditWindow();
+        reservationWindow.ShowDialog();
+    }
 }
