@@ -13,6 +13,7 @@ public partial class ReservationEditWindow : Window
             ? Reservation.Create()
             : reservation.Clone();
         InitializeComponent();
+        DataContext = _reservation;
     }
 
     public static Reservation? Create()
