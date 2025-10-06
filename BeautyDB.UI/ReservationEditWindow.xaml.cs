@@ -1,32 +1,36 @@
 namespace BeautyDB.UI;
 
 using System.Windows;
+using BeautyDB.Data.Interfaces;
 using BeautyDB.Domain;
 using BeautyDB.UI.Converters;
 
 public partial class ReservationEditWindow : Window
 {
+    private readonly IMasterRepository _masterRepository;
     private readonly ReservationEditWindowState _state = new();
 
-    private ReservationEditWindow(Reservation? reservation)
+    private ReservationEditWindow(Reservation? reservation, IMasterRepository masterRepository)
     {
+        _masterRepository = masterRepository;
+
         InitializeComponent();
         DataContext = _state;
 
         InitForm(reservation);
     }
 
-    public static Reservation? Create()
+    public static Reservation? Create(IMasterRepository masterRepository)
     {
-        var window = new ReservationEditWindow(null);
+        var window = new ReservationEditWindow(null, masterRepository);
         window.Title = "Создание резервации";
 
         return window.ShowDialog() == true ? window._state.Reservation : null;
     }
 
-    public static Reservation? Edit(Reservation reservation)
+    public static Reservation? Edit(Reservation reservation, IMasterRepository masterRepository)
     {
-        var window = new ReservationEditWindow(reservation);
+        var window = new ReservationEditWindow(reservation, masterRepository);
         window.Title = "Редактирование резервации";
 
         return window.ShowDialog() == true ? window._state.Reservation : null;

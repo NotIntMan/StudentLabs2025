@@ -5,29 +5,31 @@ using BeautyDB.Data.Interfaces;
 
 public partial class ReservationsListWindow : Window
 {
-    private readonly IReservationRepository _repository;
+    private readonly IReservationRepository _reservationRepository;
+    private readonly IMasterRepository _masterRepository;
     private readonly ReservationsListWindowState _state = new();
 
-    public ReservationsListWindow(IReservationRepository repository)
+    public ReservationsListWindow(IReservationRepository reservationRepository, IMasterRepository masterRepository)
     {
         InitializeComponent();
-        _repository = repository;
+        _reservationRepository = reservationRepository;
+        _masterRepository = masterRepository;
         DataContext = _state;
         LoadReservations();
     }
 
     private void LoadReservations()
     {
-        var reservations = _repository.GetAll();
+        var reservations = _reservationRepository.GetAll();
         _state.UpdateReservations(reservations);
     }
 
     private void CreateButton_Click(object sender, RoutedEventArgs e)
     {
-        var reservation = ReservationEditWindow.Create();
+        var reservation = ReservationEditWindow.Create(_masterRepository);
         if (reservation != null)
         {
-            _repository.Add(reservation);
+            _reservationRepository.Add(reservation);
             LoadReservations();
         }
     }
@@ -37,10 +39,10 @@ public partial class ReservationsListWindow : Window
         var selectedReservation = _state.SelectedReservation;
         if (selectedReservation is not null)
         {
-            var editedReservation = ReservationEditWindow.Edit(selectedReservation);
+            var editedReservation = ReservationEditWindow.Edit(selectedReservation, _masterRepository);
             if (editedReservation != null)
             {
-                _repository.Update(editedReservation);
+                _reservationRepository.Update(editedReservation);
                 LoadReservations();
             }
         }
@@ -59,7 +61,7 @@ public partial class ReservationsListWindow : Window
 
             if (result == MessageBoxResult.Yes)
             {
-                _repository.Delete(selectedReservation);
+                _reservationRepository.Delete(selectedReservation);
                 LoadReservations();
             }
         }
