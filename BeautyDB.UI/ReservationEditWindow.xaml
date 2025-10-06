@@ -55,7 +55,10 @@
 
         <!-- Status -->
         <TextBlock Grid.Row="6" Grid.Column="0" Text="Статус:" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <ComboBox Grid.Row="6" Grid.Column="1" SelectedItem="{Binding Status}" Margin="0,0,0,10"/>
+        <ComboBox Grid.Row="6" Grid.Column="1"
+                  ItemsSource="{x:Static local:ReservationEditWindow.AvailableStatuses}"
+                  SelectedItem="{Binding Status}"
+                  Margin="0,0,0,10"/>
 
         <!-- Buttons -->
         <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">

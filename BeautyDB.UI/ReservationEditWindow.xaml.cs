@@ -15,6 +15,8 @@ public partial class ReservationEditWindow : Window
         new Master { Id = Guid.NewGuid(), Name = "Елена Сидорова" }
     };
 
+    public static ReservationStatus[] AvailableStatuses { get; } = Enum.GetValues<ReservationStatus>();
+
     private ReservationEditWindow(Reservation? reservation)
     {
         _reservation = reservation is null
