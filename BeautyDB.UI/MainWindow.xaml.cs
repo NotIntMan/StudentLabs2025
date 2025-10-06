@@ -1,4 +1,5 @@
-﻿using System.Windows;
+using System.Windows;
+using BeautyDB.Domain;
 
 namespace BeautyDB.UI;
 
@@ -7,6 +8,8 @@ namespace BeautyDB.UI;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private Reservation? _currentReservation;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -17,7 +20,45 @@ public partial class MainWindow : Window
         var reservation = ReservationEditWindow.Create();
         if (reservation is not null)
         {
-            // TODO: Handle created reservation
+            _currentReservation = reservation;
+            DisplayReservation();
         }
+    }
+
+    private void EditButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_currentReservation is null)
+        {
+            MessageBox.Show("Сначала создайте резервацию", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        var edited = ReservationEditWindow.Edit(_currentReservation);
+        if (edited is not null)
+        {
+            _currentReservation = edited;
+            DisplayReservation();
+        }
+    }
+
+    private void DisplayReservation()
+    {
+        if (_currentReservation is null)
+        {
+            ReservationTextBlock.Text = "";
+            return;
+        }
+
+        ReservationTextBlock.Text = $"""
+            Резервация #{_currentReservation.Id}
+
+            Клиент: {_currentReservation.Client.Name}
+            Телефон: {_currentReservation.Client.Phone}
+            Мастер: {_currentReservation.Master?.Name ?? "Не выбран"}
+            Услуга: {_currentReservation.ServiceDescription}
+            Дата и время: {_currentReservation.StartTime:dd.MM.yyyy HH:mm}
+            Длительность: {_currentReservation.Duration.TotalMinutes} мин
+            Статус: {_currentReservation.Status}
+            """;
     }
 }
