@@ -89,9 +89,9 @@ public partial class ReservationEditWindow : Window
             return false;
         }
 
-        if (!TimeSpan.TryParse(DurationTextBox.Text, out var duration) || duration.TotalMinutes <= 0)
+        if (!TimeSpanConverter.TryParse(DurationTextBox.Text, out var duration) || duration.TotalMinutes <= 0)
         {
-            validationError = "Неверный формат длительности. Используйте формат ЧЧ:ММ (например, 00:30).";
+            validationError = "Неверный формат длительности. Используйте формат ЧЧ:ММ (например, 00:30) или минуты (например, 30).";
             return false;
         }
 
