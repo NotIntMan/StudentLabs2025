@@ -33,7 +33,11 @@
 
         <!-- Master -->
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Мастер:" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Master}" DisplayMemberPath="Name" Margin="0,0,0,10"/>
+        <ComboBox Grid.Row="2" Grid.Column="1"
+                  ItemsSource="{x:Static local:ReservationEditWindow.AvailableMasters}"
+                  SelectedItem="{Binding Master}"
+                  DisplayMemberPath="Name"
+                  Margin="0,0,0,10"/>
 
         <!-- Service Description -->
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Описание услуги:" VerticalAlignment="Top" Margin="0,5,0,10"/>

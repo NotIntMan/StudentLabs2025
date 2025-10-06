@@ -1,11 +1,19 @@
 namespace BeautyDB.UI;
 
+using System.Collections.ObjectModel;
 using System.Windows;
 using BeautyDB.Domain;
 
 public partial class ReservationEditWindow : Window
 {
     private Reservation _reservation;
+
+    public static ObservableCollection<Master> AvailableMasters { get; set; } = new()
+    {
+        new Master { Id = Guid.NewGuid(), Name = "Анна Иванова" },
+        new Master { Id = Guid.NewGuid(), Name = "Мария Петрова" },
+        new Master { Id = Guid.NewGuid(), Name = "Елена Сидорова" }
+    };
 
     private ReservationEditWindow(Reservation? reservation)
     {
