@@ -1,30 +1,19 @@
 namespace BeautyDB.UI;
 
-using System.Collections.ObjectModel;
 using System.Windows;
 using BeautyDB.Domain;
 using BeautyDB.UI.Converters;
 
 public partial class ReservationEditWindow : Window
 {
-    private Reservation _reservation;
-
-    public static ObservableCollection<Master> AvailableMasters { get; set; } = new()
-    {
-        new Master { Id = Guid.NewGuid(), Name = "Анна Иванова" },
-        new Master { Id = Guid.NewGuid(), Name = "Мария Петрова" },
-        new Master { Id = Guid.NewGuid(), Name = "Елена Сидорова" }
-    };
-
-    public static ReservationStatus[] AvailableStatuses { get; } = Enum.GetValues<ReservationStatus>();
+    private readonly ReservationEditWindowState _state = new();
 
     private ReservationEditWindow(Reservation? reservation)
     {
-        _reservation = reservation is null
-            ? Reservation.Create()
-            : reservation.Clone();
         InitializeComponent();
-        DataContext = _reservation;
+        DataContext = _state;
+
+        InitForm(reservation);
     }
 
     public static Reservation? Create()
@@ -32,7 +21,7 @@ public partial class ReservationEditWindow : Window
         var window = new ReservationEditWindow(null);
         window.Title = "Создание резервации";
 
-        return window.ShowDialog() == true ? window._reservation : null;
+        return window.ShowDialog() == true ? window._state.Reservation : null;
     }
 
     public static Reservation? Edit(Reservation reservation)
@@ -40,7 +29,18 @@ public partial class ReservationEditWindow : Window
         var window = new ReservationEditWindow(reservation);
         window.Title = "Редактирование резервации";
 
-        return window.ShowDialog() == true ? window._reservation : null;
+        return window.ShowDialog() == true ? window._state.Reservation : null;
+    }
+
+    private void InitForm(Reservation? reservation)
+    {
+        if (reservation is not null)
+        {
+            _state.Reservation = reservation.Clone();
+        }
+
+        var allMasters = _masterRepository.GetAll();
+        _state.UpdateAvailableMasters(allMasters);
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -59,25 +59,27 @@ public partial class ReservationEditWindow : Window
     {
         validationError = string.Empty;
 
-        if (string.IsNullOrWhiteSpace(_reservation.Client.Name))
+        var reservation = _state.Reservation;
+
+        if (string.IsNullOrWhiteSpace(reservation.Client.Name))
         {
             validationError = "Укажите имя клиента";
             return false;
         }
 
-        if (string.IsNullOrWhiteSpace(_reservation.Client.Phone))
+        if (string.IsNullOrWhiteSpace(reservation.Client.Phone))
         {
             validationError = "Укажите телефон клиента";
             return false;
         }
 
-        if (_reservation.Master is null)
+        if (reservation.Master is null)
         {
             validationError = "Выберите мастера";
             return false;
         }
 
-        if (string.IsNullOrWhiteSpace(_reservation.ServiceDescription))
+        if (string.IsNullOrWhiteSpace(reservation.ServiceDescription))
         {
             validationError = "Укажите описание услуги";
             return false;

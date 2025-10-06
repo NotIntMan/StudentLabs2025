@@ -22,6 +22,9 @@
     <Compile Update="ReservationsListWindowState.cs">
       <DependentUpon>ReservationsListWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Update="ReservationEditWindowState.cs">
+      <DependentUpon>ReservationEditWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
