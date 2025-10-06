@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BeautyDB.Data.InMemory\BeautyDB.Data.InMemory.csproj" />
+    <ProjectReference Include="..\BeautyDB.Data.Interfaces\BeautyDB.Data.Interfaces.csproj" />
     <ProjectReference Include="..\BeautyDB.Domain\BeautyDB.Domain.csproj" />
   </ItemGroup>
 
