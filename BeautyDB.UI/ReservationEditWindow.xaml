@@ -58,7 +58,7 @@
 
         <!-- Start Date -->
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата начала:" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding Reservation.Date, Converter={StaticResource DateOnlyConverter}}" Margin="0,0,0,10"/>
+        <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding Reservation.Date, Converter={StaticResource DateOnlyConverter}, ConverterParameter=DateTime}" Margin="0,0,0,10"/>
 
         <!-- Start Time -->
         <TextBlock Grid.Row="5" Grid.Column="0" Text="Время начала:" VerticalAlignment="Center" Margin="0,0,0,10"/>
