@@ -4,11 +4,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:BeautyDB.UI"
+        xmlns:converters="clr-namespace:BeautyDB.UI.Converters"
         mc:Ignorable="d"
         Title="Список записей" Height="600" Width="1000">
     <Window.DataContext>
         <local:ReservationsListWindowState/>
     </Window.DataContext>
+    <Window.Resources>
+        <converters:DateOnlyConverter x:Key="DateOnlyConverter"/>
+        <converters:TimeOnlyConverter x:Key="TimeOnlyConverter"/>
+        <converters:TimeSpanConverter x:Key="TimeSpanConverter"/>
+        <converters:ReservationStatusConverter x:Key="ReservationStatusConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -33,14 +40,20 @@
                   SelectionMode="Single"
                   Margin="10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Мастер" Binding="{Binding Master}" Width="150"/>
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="100"/>
-                <DataGridTextColumn Header="Время" Binding="{Binding StartTime}" Width="80"/>
-                <DataGridTextColumn Header="Длительность" Binding="{Binding Duration}" Width="100"/>
+                <DataGridTextColumn Header="Мастер" Binding="{Binding Master.Name, FallbackValue='—'}" Width="150"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, Converter={StaticResource DateOnlyConverter}}" Width="100"/>
+                <DataGridTextColumn Header="Время" Binding="{Binding StartTime, Converter={StaticResource TimeOnlyConverter}}" Width="80"/>
+                <DataGridTextColumn Header="Длительность" Binding="{Binding Duration, Converter={StaticResource TimeSpanConverter}}" Width="100"/>
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Client.Name}" Width="150"/>
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Client.Phone}" Width="120"/>
-                <DataGridTextColumn Header="Услуга" Binding="{Binding ServiceDescription}" Width="*"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
+                <DataGridTextColumn Header="Услуга" Binding="{Binding ServiceDescription}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status, Converter={StaticResource ReservationStatusConverter}}" Width="120"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
