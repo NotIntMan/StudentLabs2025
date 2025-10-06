@@ -14,7 +14,10 @@ public partial class MainWindow : Window
 
     private void CreateButton_Click(object sender, RoutedEventArgs e)
     {
-        var reservationWindow = new ReservationEditWindow();
-        reservationWindow.ShowDialog();
+        var reservation = ReservationEditWindow.Create();
+        if (reservation is not null)
+        {
+            // TODO: Handle created reservation
+        }
     }
 }
