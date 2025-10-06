@@ -1,34 +1,25 @@
 namespace BeautyDB.UI;
 
-using System.Collections.ObjectModel;
 using System.Windows;
 using BeautyDB.Data.Interfaces;
-using BeautyDB.Domain;
 
 public partial class ReservationsListWindow : Window
 {
     private readonly IReservationRepository _repository;
-
-    public ObservableCollection<Reservation> Reservations { get; set; } = new();
-
-    public Reservation? SelectedReservation { get; set; }
+    private readonly ReservationsListWindowState _state = new();
 
     public ReservationsListWindow(IReservationRepository repository)
     {
         InitializeComponent();
         _repository = repository;
-        DataContext = this;
+        DataContext = _state;
         LoadReservations();
     }
 
     private void LoadReservations()
     {
         var reservations = _repository.GetAll();
-        Reservations.Clear();
-        foreach (var reservation in reservations)
-        {
-            Reservations.Add(reservation);
-        }
+        _state.UpdateReservations(reservations);
     }
 
     private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -43,7 +34,7 @@ public partial class ReservationsListWindow : Window
 
     private void EditButton_Click(object sender, RoutedEventArgs e)
     {
-        var selectedReservation = SelectedReservation;
+        var selectedReservation = _state.SelectedReservation;
         if (selectedReservation is not null)
         {
             var editedReservation = ReservationEditWindow.Edit(selectedReservation);
@@ -57,7 +48,7 @@ public partial class ReservationsListWindow : Window
 
     private void DeleteButton_Click(object sender, RoutedEventArgs e)
     {
-        var selectedReservation = SelectedReservation;
+        var selectedReservation = _state.SelectedReservation;
         if (selectedReservation is not null)
         {
             var result = MessageBox.Show(
