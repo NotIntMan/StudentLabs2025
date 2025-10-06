@@ -56,7 +56,8 @@ public partial class MainWindow : Window
             Телефон: {_currentReservation.Client.Phone}
             Мастер: {_currentReservation.Master?.Name ?? "Не выбран"}
             Услуга: {_currentReservation.ServiceDescription}
-            Дата и время: {_currentReservation.StartTime:dd.MM.yyyy HH:mm}
+            Дата: {_currentReservation.Date:dd.MM.yyyy}
+            Время: {_currentReservation.StartTime:HH:mm}
             Длительность: {_currentReservation.Duration.TotalMinutes} мин
             Статус: {_currentReservation.Status}
             """;

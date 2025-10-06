@@ -19,6 +19,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -49,17 +50,21 @@
                  AcceptsReturn="True" TextWrapping="Wrap"
                  Height="80" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10"/>
 
+        <!-- Start Date -->
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата начала:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding Date}" Margin="0,0,0,10"/>
+
         <!-- Start Time -->
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Время начала:" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding StartTime}" Margin="0,0,0,10"/>
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Время начала:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding StartTime}" Margin="0,0,0,10"/>
 
         <!-- Duration -->
-        <TextBlock Grid.Row="5" Grid.Column="0" Text="Длительность (мин):" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Duration}" Margin="0,0,0,10"/>
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Длительность (мин):" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Duration}" Margin="0,0,0,10"/>
 
         <!-- Status -->
-        <TextBlock Grid.Row="6" Grid.Column="0" Text="Статус:" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <ComboBox Grid.Row="6" Grid.Column="1"
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Статус:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <ComboBox Grid.Row="7" Grid.Column="1"
                   ItemsSource="{x:Static local:ReservationEditWindow.AvailableStatuses}"
                   SelectedItem="{Binding Status}"
                   Margin="0,0,0,10">
@@ -71,7 +76,7 @@
         </ComboBox>
 
         <!-- Buttons -->
-        <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+        <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
             <Button Content="Сохранить" Width="100" Margin="0,0,10,0" Click="SaveButton_Click"/>
             <Button Content="Отмена" Width="100" Click="CancelButton_Click"/>
         </StackPanel>
