@@ -3,6 +3,7 @@ namespace BeautyDB.UI;
 using System.Collections.ObjectModel;
 using System.Windows;
 using BeautyDB.Domain;
+using BeautyDB.UI.Converters;
 
 public partial class ReservationEditWindow : Window
 {
@@ -44,9 +45,57 @@ public partial class ReservationEditWindow : Window
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
-        // TODO: Implement save logic
+        if (!ValidateForm(out var validationError))
+        {
+            MessageBox.Show(validationError, "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
         DialogResult = true;
         Close();
+    }
+
+    private bool ValidateForm(out string validationError)
+    {
+        validationError = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(_reservation.Client.Name))
+        {
+            validationError = "Укажите имя клиента";
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(_reservation.Client.Phone))
+        {
+            validationError = "Укажите телефон клиента";
+            return false;
+        }
+
+        if (_reservation.Master is null)
+        {
+            validationError = "Выберите мастера";
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(_reservation.ServiceDescription))
+        {
+            validationError = "Укажите описание услуги";
+            return false;
+        }
+
+        if (!TimeOnlyConverter.TryParse(StartTimeTextBox.Text, out _))
+        {
+            validationError = "Неверный формат времени. Используйте формат ЧЧ:ММ (например, 14:30).";
+            return false;
+        }
+
+        if (!TimeSpan.TryParse(DurationTextBox.Text, out var duration) || duration.TotalMinutes <= 0)
+        {
+            validationError = "Неверный формат длительности. Используйте формат ЧЧ:ММ (например, 00:30).";
+            return false;
+        }
+
+        return true;
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)

@@ -62,11 +62,11 @@
 
         <!-- Start Time -->
         <TextBlock Grid.Row="5" Grid.Column="0" Text="Время начала:" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding StartTime, Converter={StaticResource TimeOnlyConverter}}" Margin="0,0,0,10"/>
+        <TextBox Grid.Row="5" Grid.Column="1" x:Name="StartTimeTextBox" Text="{Binding StartTime, Converter={StaticResource TimeOnlyConverter}}" Margin="0,0,0,10"/>
 
         <!-- Duration -->
         <TextBlock Grid.Row="6" Grid.Column="0" Text="Длительность (мин):" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Duration}" Margin="0,0,0,10"/>
+        <TextBox Grid.Row="6" Grid.Column="1" x:Name="DurationTextBox" Text="{Binding Duration}" Margin="0,0,0,10"/>
 
         <!-- Status -->
         <TextBlock Grid.Row="7" Grid.Column="0" Text="Статус:" VerticalAlignment="Center" Margin="0,0,0,10"/>
