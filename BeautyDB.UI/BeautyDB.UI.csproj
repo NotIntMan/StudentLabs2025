@@ -9,7 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BeautyDB.Data.InMemory\BeautyDB.Data.InMemory.csproj" />
+    <ProjectReference Include="..\BeautyDB.Data.Interfaces\BeautyDB.Data.Interfaces.csproj" />
     <ProjectReference Include="..\BeautyDB.Domain\BeautyDB.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ReservationsListWindowState.cs">
+      <DependentUpon>ReservationsListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="ReservationEditWindowState.cs">
+      <DependentUpon>ReservationEditWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
