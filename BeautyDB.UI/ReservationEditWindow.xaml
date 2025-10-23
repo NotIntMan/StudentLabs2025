@@ -1,0 +1,91 @@
+<Window x:Class="BeautyDB.UI.ReservationEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:BeautyDB.UI"
+        xmlns:converters="clr-namespace:BeautyDB.UI.Converters"
+        xmlns:domain="clr-namespace:BeautyDB.Domain;assembly=BeautyDB.Domain"
+        mc:Ignorable="d"
+        Title="ReservationEditWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <domain:Reservation/>
+    </Window.DataContext>
+    <Window.Resources>
+        <converters:ReservationStatusConverter x:Key="StatusConverter"/>
+        <converters:DateOnlyConverter x:Key="DateOnlyConverter"/>
+        <converters:TimeOnlyConverter x:Key="TimeOnlyConverter"/>
+        <converters:TimeSpanConverter x:Key="TimeSpanConverter"/>
+    </Window.Resources>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Client Name -->
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя клиента:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Client.Name}" Margin="0,0,0,10"/>
+
+        <!-- Client Phone -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Телефон клиента:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Client.Phone}" Margin="0,0,0,10"/>
+
+        <!-- Master -->
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Мастер:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <ComboBox Grid.Row="2" Grid.Column="1"
+                  ItemsSource="{x:Static local:ReservationEditWindow.AvailableMasters}"
+                  SelectedItem="{Binding Master}"
+                  DisplayMemberPath="Name"
+                  Margin="0,0,0,10"/>
+
+        <!-- Service Description -->
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Описание услуги:" VerticalAlignment="Top" Margin="0,5,0,10"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ServiceDescription}"
+                 AcceptsReturn="True" TextWrapping="Wrap"
+                 Height="80" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10"/>
+
+        <!-- Start Date -->
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата начала:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding Date, Converter={StaticResource DateOnlyConverter}}" Margin="0,0,0,10"/>
+
+        <!-- Start Time -->
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Время начала:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBox Grid.Row="5" Grid.Column="1" x:Name="StartTimeTextBox" Text="{Binding StartTime, Converter={StaticResource TimeOnlyConverter}}" Margin="0,0,0,10"/>
+
+        <!-- Duration -->
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Длительность:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBox Grid.Row="6" Grid.Column="1" x:Name="DurationTextBox" Text="{Binding Duration, Converter={StaticResource TimeSpanConverter}}" Margin="0,0,0,10"/>
+
+        <!-- Status -->
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Статус:" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <ComboBox Grid.Row="7" Grid.Column="1"
+                  ItemsSource="{x:Static local:ReservationEditWindow.AvailableStatuses}"
+                  SelectedItem="{Binding Status}"
+                  Margin="0,0,0,10">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource StatusConverter}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Сохранить" Width="100" Margin="0,0,10,0" Click="SaveButton_Click"/>
+            <Button Content="Отмена" Width="100" Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
